@@ -4,7 +4,7 @@
 
 ![](https://github.com/yuzhiqiang1993/zxing/raw/master/img/scanTm.gif)![](https://github.com/yuzhiqiang1993/zxing/raw/master/img/scanEwm.gif)
 
-上面的库我在使用过程中遇到了一些问题，因为库依赖于AppCompat主题，所以我的应用的主题Theme必须是AppComat的，这一点让我的应用无法使用该库（试了改主题，但界面乱了),所以下载了该源码，将其中对AppCompat依赖的东西全部去除了，然后我重新通过JitPack发布了一个版本供自己的项目使用。[修改后的Zxinglib源码库](https://github.com/houxuexianhan/zxinglib)
+上面的库我在使用过程中遇到了一些问题，因为库依赖于AppCompat主题，所以应用的主题Theme必须是AppComat的，这一点让我的应用因没有使用AppComat主题而无法使用该库（试了改主题，但界面乱了),所以下载了该源码，将其中对AppCompat依赖的东西全部去除了，然后我重新通过JitPack发布了一个版本供自己的项目使用。[修改后的Zxinglib源码库](https://github.com/houxuexianhan/zxinglib)
 ### 1）添加依赖
 在根目录 build.gradle 中加入
 ```
