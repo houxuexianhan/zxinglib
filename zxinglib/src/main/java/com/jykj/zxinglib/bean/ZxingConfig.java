@@ -1,18 +1,13 @@
 package com.jykj.zxinglib.bean;
 
-import android.support.annotation.ColorRes;
 
 import com.jykj.zxinglib.R;
 
 import java.io.Serializable;
 
 /**
- * @author: yzq
- * @date: 2017/10/27 14:48
- * @declare :zxing配置类
+ * zxing配置类
  */
-
-
 public class ZxingConfig implements Serializable {
 
 
@@ -32,12 +27,10 @@ public class ZxingConfig implements Serializable {
     private boolean isFullScreenScan = true;
 
     /*四个角的颜色*/
-    @ColorRes
     private int reactColor = R.color.react;
     /*扫描框颜色*/
-    @ColorRes
     private int frameLineColor = -1;
-
+    private String title;//扫一扫的标题
 
 //    /*扫描线颜色*/
 //    @ColorRes
@@ -52,7 +45,7 @@ public class ZxingConfig implements Serializable {
         return frameLineColor;
     }
 
-    public void setFrameLineColor(@ColorRes int frameLineColor) {
+    public void setFrameLineColor(int frameLineColor) {
         this.frameLineColor = frameLineColor;
     }
 
@@ -76,7 +69,7 @@ public class ZxingConfig implements Serializable {
         return reactColor;
     }
 
-    public void setReactColor(@ColorRes int reactColor) {
+    public void setReactColor( int reactColor) {
         this.reactColor = reactColor;
     }
 
@@ -90,6 +83,14 @@ public class ZxingConfig implements Serializable {
 
     public boolean isDecodeBarCode() {
         return isDecodeBarCode;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public void setDecodeBarCode(boolean decodeBarCode) {

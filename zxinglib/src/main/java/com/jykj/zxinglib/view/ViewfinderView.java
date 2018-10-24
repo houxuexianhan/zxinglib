@@ -1,17 +1,14 @@
 
 package com.jykj.zxinglib.view;
-
-
 import android.animation.ValueAnimator;
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Rect;
-import android.support.annotation.Nullable;
-import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.View;
@@ -51,42 +48,30 @@ public final class ViewfinderView extends View {
     private ZxingConfig config;
     private ValueAnimator valueAnimator;
     private Rect frame;
-
-
     public ViewfinderView(Context context) {
         this(context, null);
 
     }
-
     public ViewfinderView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
-
-
     }
-
-
     public void setZxingConfig(ZxingConfig config) {
         this.config = config;
-        reactColor = ContextCompat.getColor(getContext(), config.getReactColor());
+        //reactColor = ContextCompat.getColor(getContext(), config.getReactColor());
+        reactColor = getContext().getResources().getColor(config.getReactColor());
     }
-
-
-    public ViewfinderView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
+    public ViewfinderView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
-
-        maskColor = ContextCompat.getColor(getContext(), R.color.viewfinder_mask);
-        resultColor = ContextCompat.getColor(getContext(), R.color.result_view);
-        resultPointColor = ContextCompat.getColor(getContext(), R.color.possible_result_points);
-        statusColor = ContextCompat.getColor(getContext(), R.color.status_text);
+        Resources r =  getContext().getResources();
+        maskColor = r.getColor(R.color.viewfinder_mask);
+        resultColor = r.getColor( R.color.result_view);
+        resultPointColor = r.getColor( R.color.possible_result_points);
+        statusColor = r.getColor( R.color.status_text);
 
         possibleResultPoints = new ArrayList<ResultPoint>(10);
         lastPossibleResultPoints = null;
 
-
         initPaint();
-
-
     }
 
     private void initPaint() {
@@ -98,12 +83,9 @@ public final class ViewfinderView extends View {
         scanLinePaint.setStyle(Paint.Style.FILL);
         scanLinePaint.setDither(true);
         scanLinePaint.setColor(Color.WHITE);
-
     }
 
     private void initAnimator() {
-
-
         if (valueAnimator == null) {
             valueAnimator = ValueAnimator.ofInt(frame.top, frame.bottom);
             valueAnimator.setDuration(3000);
@@ -116,20 +98,15 @@ public final class ViewfinderView extends View {
 
                     scanLineTop = (int) animation.getAnimatedValue();
                     invalidate();
-
                 }
             });
 
             valueAnimator.start();
         }
-
-
     }
 
     public void setCameraManager(CameraManager cameraManager) {
         this.cameraManager = cameraManager;
-
-
     }
 
     @SuppressLint("DrawAllocation")
@@ -147,8 +124,8 @@ public final class ViewfinderView extends View {
         }
         initAnimator();
 
-        int width = canvas.getWidth();
-        int height = canvas.getHeight();
+        int width = getWidth();//canvas.getWidth();
+        int height = getHeight();//canvas.getHeight();
 
         /*绘制遮罩*/
         drawMaskView(canvas, frame, width, height);
@@ -244,7 +221,7 @@ public final class ViewfinderView extends View {
 
         /*扫描框的边框线*/
         if (config.getFrameLineColor() != -1) {
-            paint.setColor(ContextCompat.getColor(getContext(), config.getFrameLineColor()));
+            paint.setColor(getContext().getResources().getColor(config.getFrameLineColor()));
             paint.setStrokeWidth(dp2px(1));
             paint.setStyle(Paint.Style.STROKE);
             canvas.drawRect(frame, paint);

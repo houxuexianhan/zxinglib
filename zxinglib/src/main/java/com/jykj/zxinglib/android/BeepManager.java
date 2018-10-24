@@ -87,7 +87,7 @@ public final class BeepManager implements MediaPlayer.OnCompletionListener,
         if (vibrate) {
             Vibrator vibrator = (Vibrator) activity
                     .getSystemService(Context.VIBRATOR_SERVICE);
-            vibrator.vibrate(VIBRATE_DURATION);
+            if(vibrator!=null) vibrator.vibrate(VIBRATE_DURATION);
         }
     }
 

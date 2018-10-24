@@ -31,22 +31,16 @@ import com.jykj.zxinglib.decode.ImageUtil;
 import com.jykj.zxinglib.view.ViewfinderView;
 
 import java.io.IOException;
-
-
 /**
- * @author: yzq
- * @date: 2017/10/26 15:22
- * @declare :扫一扫
+ * 扫一扫
  */
-
 public class CaptureActivity extends Activity implements SurfaceHolder.Callback, View.OnClickListener {
-
     private static final String TAG = CaptureActivity.class.getSimpleName();
     public ZxingConfig config;
     private SurfaceView previewView;
     private ViewfinderView viewfinderView;
     private ImageView flashLightIv;
-    private TextView flashLightTv;
+    private TextView flashLightTv,tvTitle;
     private ImageView backIv;
     private LinearLayout flashLightLayout;
     private LinearLayout albumLayout;
@@ -57,30 +51,21 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
     private CameraManager cameraManager;
     private CaptureActivityHandler handler;
     private SurfaceHolder surfaceHolder;
-
-
     public ViewfinderView getViewfinderView() {
         return viewfinderView;
     }
-
     public Handler getHandler() {
         return handler;
     }
-
     public CameraManager getCameraManager() {
         return cameraManager;
     }
-
     public void drawViewfinder() {
         viewfinderView.drawViewfinder();
     }
-
-
     static {
-
         //AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,37 +76,22 @@ public class CaptureActivity extends Activity implements SurfaceHolder.Callback,
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(Color.BLACK);
         }
-
         /*先获取配置信息*/
-        try {
-            config = (ZxingConfig) getIntent().getExtras().get(Constant.INTENT_ZXING_CONFIG);
-        } catch (Exception e) {
-
-            Log.i("config", e.toString());
-        }
-
+        config = (ZxingConfig) getIntent().getSerializableExtra(Constant.INTENT_ZXING_CONFIG);
         if (config == null) {
             config = new ZxingConfig();
         }
-        
-
         setContentView(R.layout.activity_capture);
-
-
         initView();
-
         hasSurface = false;
-
         inactivityTimer = new InactivityTimer(this);
         beepManager = new BeepManager(this);
         beepManager.setPlayBeep(config.isPlayBeep());
         beepManager.setVibrate(config.isShake());
-
-
+        if(config.getTitle()!=null) tvTitle.setText(config.getTitle());
     }
-
-
     private void initView() {
+        tvTitle = findViewById(R.id.tvTitle);
         previewView = findViewById(R.id.preview_view);
         previewView.setOnClickListener(this);
 
