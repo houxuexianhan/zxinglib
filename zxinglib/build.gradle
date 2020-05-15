@@ -7,8 +7,8 @@ android {
     defaultConfig {
         minSdkVersion 16
         //targetSdkVersion 28
-        versionCode 2
-        versionName "1.1"
+        versionCode 3
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
     }
@@ -22,8 +22,9 @@ android {
 }
 
 dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-    api files('libs/core-3.3.0.jar')
+    //implementation fileTree(dir: 'libs', include: ['*.jar'])
+    //api 'com.google.zxing:android-core:3.3.0'
+    api 'com.google.zxing:core:3.4.0'
     //implementation 'com.android.support:appcompat-v7:28.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'

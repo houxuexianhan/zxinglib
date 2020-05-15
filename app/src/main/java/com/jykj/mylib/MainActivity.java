@@ -1,11 +1,12 @@
 package com.jykj.mylib;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
-import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.jykj.zxinglib.android.CaptureActivity;
@@ -13,16 +14,18 @@ import com.jykj.zxinglib.bean.ZxingConfig;
 import com.jykj.zxinglib.common.Constant;
 import com.yanzhenjie.permission.Action;
 import com.yanzhenjie.permission.AndPermission;
-import com.yanzhenjie.permission.Permission;
+import com.yanzhenjie.permission.runtime.Permission;
 
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends Activity {
     private int REQUEST_CODE_SCAN = 111;
+    private TextView tvResult;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tvResult = findViewById(R.id.tvResult);
         findViewById(R.id.btnScan).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -31,9 +34,9 @@ public class MainActivity extends AppCompatActivity {
         });
     }
     private void scan(){
-        AndPermission.with(this)
+        AndPermission.with(this).runtime()
                 .permission(Permission.CAMERA, Permission.READ_EXTERNAL_STORAGE)
-                .onGranted(new Action() {
+                .onGranted(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> permissions) {
                         Intent intent = new Intent(MainActivity.this, CaptureActivity.class);
@@ -55,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivityForResult(intent, REQUEST_CODE_SCAN);
                     }
                 })
-                .onDenied(new Action() {
+                .onDenied(new Action<List<String>>() {
                     @Override
                     public void onAction(List<String> permissions) {
                         Uri packageURI = Uri.parse("package:" + getPackageName());
@@ -67,5 +70,14 @@ public class MainActivity extends AppCompatActivity {
                         Toast.makeText(MainActivity.this, "没有权限无法扫描呦", Toast.LENGTH_LONG).show();
                     }
                 }).start();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode==REQUEST_CODE_SCAN && resultCode==RESULT_OK){
+            String no = data.getStringExtra(com.jykj.zxinglib.common.Constant.CODED_CONTENT);
+            tvResult.setText(no);
+        }
     }
 }
